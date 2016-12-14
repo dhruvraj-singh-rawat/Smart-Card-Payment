@@ -1,0 +1,19 @@
+<html>
+<body>
+<form action= "{{url_for('createUser')}}" method = 'POST'>
+
+<p>Name: <strong>{{username}}</strong></p>
+
+<p>Email: <strong>{{email}}</strong></p>
+
+<p>Enter New Rfid Pin:</p>
+<input type = 'text' size='30' name = 'rfid_pin'>
+
+<p>Rfid Number :</p>
+<input type = 'text' size='30' name = 'rfid_no'>
+
+<input type='submit' value='submit'>
+</form>
+
+</body>
+</html>
