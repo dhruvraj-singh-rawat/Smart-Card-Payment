@@ -45,6 +45,11 @@ def dashboard():
 
 ###################################################################################################
 
+
+
+
+
+
 @app.route('/redirector')
 def redirecter():
 
@@ -85,7 +90,7 @@ def createUser():
 		if (request.form['rfid_no']!= None and request.form['rfid_pin']!= None):
 
 			newUser=UserTable(name=login_session.get('username'),email=login_session.get('email'),picture=login_session.get('picture'),
-				pin=request.form['rfid_pin'],rfidno=request.form['rfid_no']
+				pin=request.form['rfid_pin'],rfidno=request.form['rfid_no'],userLevel=1,
 				)
 			session.add(newUser)
 			session.commit()

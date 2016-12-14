@@ -14,6 +14,7 @@ class UserTable(Base):
     typeCard = Column(String(5))
     rfidno  = Column(String(50))
     picture = Column(String(250))
+    userLevel = Column(String(250))
     id = Column(Integer, primary_key = True)
 
     @property
@@ -24,6 +25,7 @@ class UserTable(Base):
            'email'           : self.email,
            'rfidno'          : self.rfidno,
            'pin'              : self.pin,
+           'userLevel'        : self.userLevel,
        
        }
 
