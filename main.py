@@ -264,6 +264,14 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+@app.route('/')
+def tables():
+    return render_template('tables.html')
+
+@app.route('/')
+def dashes():
+    return render_template('dashboard.html')
+
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True

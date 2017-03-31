@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
+    <title>LNMIIT Cashless System</title>
+
+    <!-- Bootstrap Core CSS -->
+     <link href="{{ url_for('static',filename='bootstrap.min.css') }}" rel="stylesheet">
+   <!-- <script type="text/css" src="{{ url_for('static',filename='bootstrap.min.css') }}"> </script>
+    <!-- Custom CSS -->
+
+    <link href="{{ url_for('static',filename='bootstrap.min.css') }}" rel="stylesheet">
+    <!--<script type="text/css" src="{{ url_for('static',filename='sb-admin.css') }}"> </script>
   <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
    <script type="text/javascript" src="{{ url_for('static',filename='jquery.min.js') }}"> </script>
-  </script>
-
+  
 <script src="//apis.google.com/js/platform.js?onload=start"> </script>
 
 <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
@@ -14,8 +27,45 @@
 </head>
 
 
-<body>  
+<body>
+    <div id="wrapper">
 
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                </button>
+                <a class="navbar-brand" href="index.html"><h3>LNMIIT Cashless System</h3></a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                   <li class="dropdown">
+                   </li>
+            </ul>
+            <!--
+             <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                         <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
+                    </li>
+                    </ul>
+            </div>
+           -->
+
+<div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+        
 
 <!-- GOOGLE PLUS SIGN IN-->
 
@@ -32,38 +82,70 @@
           </span>
         </div>
 
-<div id="result"></div>
+                  <div id="result"></div>
 
-<script>
-function signInCallback(authResult) {
-  if (authResult['code']) {
-    // Hide the sign-in button now that the user is authorized
-    $('#signinButton').attr('style', 'display: none');
-    // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
-    $.ajax({
-      type: 'POST',
-      url: '/gconnect?state={{STATE}}',
-      processData: false,
-      data: authResult['code'],
-      contentType: 'application/octet-stream; charset=utf-8',
-      success: function(result) {
-        // Handle or verify the server response if necessary.
-        if (result) {
-          $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
-         setTimeout(function() {
-          window.location.href = "/redirector";
-         }, 4000);
-          
-      } else if (authResult['error']) {
-    console.log('There was an error: ' + authResult['error']);
-  } else {
-        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
-         }
-      }
-      
-  }); } }
-</script>
+                    <script>
+                    function signInCallback(authResult) {
+                      if (authResult['code']) {
+                        // Hide the sign-in button now that the user is authorized
+                        $('#signinButton').attr('style', 'display: none');
+                        // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+                        $.ajax({
+                          type: 'POST',
+                          url: '/gconnect?state={{STATE}}',
+                          processData: false,
+                          data: authResult['code'],
+                          contentType: 'application/octet-stream; charset=utf-8',
+                          success: function(result) {
+                            // Handle or verify the server response if necessary.
+                            if (result) {
+                              $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+                             setTimeout(function() {
+                              window.location.href = "/redirector";
+                             }, 4000);
+                              
+                          } else if (authResult['error']) {
+                        console.log('There was an error: ' + authResult['error']);
+                      } else {
+                            $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                             }
+                          }
+                          
+                      }); } }
+                    </script>
 
+
+     </div>
+                </div>
+
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>
+<P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P><P>.
+
+                        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="{{ url_for('static',filename='jquery.js') }}"> </script>
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static',filename='bootstrap.min.js') }}"> </script>
+               
 
 
 <!--END GOOGLE PLUS SIGN IN -->
@@ -71,3 +153,22 @@ function signInCallback(authResult) {
   </body>
 
   </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

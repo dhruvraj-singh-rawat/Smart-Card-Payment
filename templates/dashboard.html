@@ -1,29 +1,136 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>LNMIIT Cashless System</title>
+
+    <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static',filename='bootstrap.min.css') }}" rel="stylesheet">
+        <!--<script type="text/css" src="{{ url_for('static',filename='bootstrap.min.css') }}"> </script>
+
+    <!-- Custom CSS -->
+        <link href="{{ url_for('static',filename='sb-admin.css') }}" rel="stylesheet">
+        <!--<script type="text/css" src="{{ url_for('static',filename='sb-admin.css') }}"> </script>
+
+</head>
 
 <body>
 
-<h1>DASHBOARD</h1>
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                </button>
+                <a class="navbar-brand" href="index.html">LNMIIT Cashless System</a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                   <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-gear"></i>Change PIN</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <i class="fa fa-fw fa-power-off"></i><a href='{{url_for('gdisconnect')}}'>Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="#"><i class="fa fa-fw fa-dashboard"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('tables') }}"><i class="fa fa-fw fa-table"></i>Tables</a>
+                    </li>
+                    </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-3">
+                    </div>
+                    <div class="col-lg-6">
+                        <h1 class="page-header">
+                            Dashboard <small>Information pertaining to your account </small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-dashboard"></i> Dashboard
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-3">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="alert alert-info alert-dismissable">
+                            We advise you to keep your PIN confidential and logout of the portal on public systems.
+                         </div>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    <div class="col-lg-3">
+                    </div>
+                    <div class="col-lg-6">
+                        <div style="font-family:Verdana">
+                        <br>Hello {{username}}!.
+                        <br>Your ID:{{email}}
+                        <!--<br>Your RIFD No: {{userinfo.rfidno}}
+                        <!--<br>Access Token:{{token}}-->
+                        <p>
+                    </div>
+                    <p>
+                    </div>
+                </div>
 
 
+                <div class="row">
+                    <div class="col-lg-3">
+                    </div>
+                    <div class="col-lg-6">
+                            <h4><div class="alert alert-info alert-dismissable"> Amount(₹)</h4>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
 
+        </div>
+        <!-- /#page-wrapper -->
 
-<div>
-
-<p>Successfully Logged In as <strong>{{username}}</strong></p>
-
-<p>The Google ID used is <strong>{{email}}</strong></p>
-<p>The Access Token is <strong>{{token}}</strong></p>
-<p>The Rfid No is <strong>{{userinfo.rfidno}}</strong></p>
-<p>The PIN is <strong>{{userinfo.pin}}</strong></p>
-
-
-
-
-<p> <a href='{{url_for('gdisconnect')}}'>LogOut</a></p>
-
-</div>
-
-
+    </div>
+    <!-- /#wrapper -->
+    <script type="text/javascript" src="{{ url_for('static',filename='jquery.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static',filename='bootstrap.min.js') }}"> </script>
+    
 </body>
 
 </html>
