@@ -49,8 +49,12 @@ def dashboard():
 @app.route('/redirector')
 def redirecter():
 
-    email=login_session.get('email')
+    
 
+    if login_session.get('email')==None:
+        return redirect('/login')
+
+    email=login_session.get('email')
     user_type=getUserID(email)
 
     if user_type is not None:
@@ -75,10 +79,9 @@ def redirecter():
 
 @app.route('/createUser', methods=['GET', 'POST'])
 def createUser():
-    email=login_session.get('email')
-    domain=email[email.find("@"):]
-    if (domain.lower()!="@lnmiit.ac.in"):
-        gdisconnect()
+
+    if (login_session.get('email')==None):
+        
         return redirect('/login')
 
 
