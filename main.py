@@ -16,8 +16,13 @@ from flask import make_response
 import requests
 from oauth2client.client import AccessTokenCredentials
 
-app = Flask(__name__)
+#import for flask admin
+from flask_admin.contrib.sqla import ModelView
+from flask_admin import Admin 
+# from flask_sqlalchemy import SQLAlchemy 
 
+app = Flask(__name__)
+admin=Admin(app)
 
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
@@ -31,6 +36,9 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+admin.add_view(ModelView(UserTable,session))
+admin.add_view(ModelView(StatementTable,session))
+admin.add_view(ModelView(StatementHistory,session))
 
 @app.route('/dashboard')
 def dashboard():
@@ -86,12 +94,20 @@ def createUser():
 
 
     if request.method =='POST':
+        email=login_session.get('email')
+        rollno=email[:email.find("@")]
 
         if (request.form['rfid_no']!= None and request.form['rfid_pin']!= None ):
-            newUser=UserTable(name=login_session.get('username'),email=login_session.get('email'),picture=login_session.get('picture'),
+
+            newUser=UserTable(rollno=rollno,name=login_session.get('username'),email=login_session.get('email'),picture=login_session.get('picture'),
                 pin=request.form['rfid_pin'],rfidno=request.form['rfid_no'],userLevel=1,
-                )
+                )         
+
             session.add(newUser)
+            session.commit()
+
+            newUser_statement=StatementTable(balance=0,email=login_session.get('email'),account_holder=newUser)
+            session.add(newUser_statement)
             session.commit()
             user=session.query(UserTable).filter_by(email=login_session.get('email')).one()
             if user is not None:
@@ -106,6 +122,114 @@ def createUser():
         return render_template('createuser.html',username=login_session['username'],email=login_session['email'])
 
 
+###################################################################################################
+
+# API IMPLEMENTATION 
+
+@app.route("/api_responce", methods = ['GET', 'POST'])
+def api_responce():
+    if request.method=='POST':
+
+        rfid_no=request.args.get('rfid_no')
+
+        menu_level=request.args.get('menu_level') 
+        if menu_level!=None:
+            menu_level=int(request.args.get('menu_level'))
+
+        #shop_id=request.args.get('shop_id')
+        pin=request.args.get('pin')
+        payment=request.args.get('payment')
+        if payment == None:
+            payment=0
+
+        
+        remark=request.args.get('remark')
+        
+
+        if menu_level==None:
+
+            if session.query(UserTable).filter_by(rfidno=rfid_no).count() > 0:            
+                user_info = session.query(UserTable).filter_by(rfidno=rfid_no).one()
+                name=user_info.name
+                rollno=user_info.rollno
+                # if menu_level==None:
+                menu_level=1
+
+                output={
+                        'Name':name,
+                        'Rfid_no':rfid_no,
+                        'Status':1,
+                        'rollno':rollno,
+                        'Menu_level':menu_level,
+                }
+
+                return json.dumps(output)
+
+                #return "This reply is from Server! RFID NO:%r and name:%r menu%r"%(rfid_no,name,menu_level)
+            else:
+                output={
+                        'Status':0,
+                        'Rfid_no':rfid_no,
+                }
+                return json.dumps(output)
+                #return "This reply is from Server! RFID NO:%r NEW User"%(rfid_no)
+
+        elif menu_level==1:
+            user_info = session.query(UserTable).filter_by(rfidno=rfid_no).one()
+            if user_info.pin==pin:
+                menu_level=menu_level+1
+
+                output={
+                    'rfid_no':rfid_no,
+                    'menu_level':menu_level,
+                    'status':1,
+                }
+                return json.dumps(output)
+            else:
+                output={
+                    'rfid_no':rfid_no,
+                    'status':0,
+                }
+                return json.dumps(output)
+
+        elif menu_level==2:
+            user_info = session.query(UserTable).filter_by(rfidno=rfid_no).one()
+            # user_statement=session.query(StatementTable).filter_by(email=user_info.email).one()
+            # he=user_info.statementtable.one()
+            balance_available=int(user_info.statementtable.one().balance)
+            payment=int(payment)
+
+            if balance_available>=payment:
+                balance_available=balance_available-payment
+                user_info.statementtable.one().balance=balance_available
+                session.commit()
+                output={
+                    'status':1,
+
+                }
+                return json.dumps(output)
+            else:
+                output={
+                    'status':0,
+                }
+                return json.dumps(output)
+
+
+
+    elif request.method=='GET':
+
+        response=make_response(json.dumps('GET is working',200))
+        response.headers['Content-Type']='application/json'
+        return response
+        
+
+
+####################################################################################################
+
+
+
+
+####################################################################################################
 
 
 def getUserInfo(user_id):
@@ -268,3 +392,4 @@ if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='127.0.0.1', port=5000)
+    #app.run(host='127.0.0.1', port=5000)

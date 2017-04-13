@@ -8,7 +8,8 @@ Base = declarative_base()
 class UserTable(Base):
     __tablename__ = 'user_table'
    
-    pin = Column(String(10))    
+    pin = Column(String(10))
+    rollno = Column(String(10))        
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     typeCard = Column(String(5))
@@ -16,6 +17,9 @@ class UserTable(Base):
     picture = Column(String(250))
     userLevel = Column(String(250))
     id = Column(Integer, primary_key = True)
+    
+    statementhistory=relationship('StatementHistory',backref='account_holder',lazy='dynamic')
+    statementtable=relationship('StatementTable',backref='account_holder',lazy='dynamic')
 
     @property
     def serialize(self):
@@ -25,6 +29,7 @@ class UserTable(Base):
            'email'           : self.email,
            'rfidno'          : self.rfidno,
            'pin'              : self.pin,
+           'rollno'           : self.rollno,
            'userLevel'        : self.userLevel,
        
        }
@@ -40,8 +45,8 @@ class StatementHistory(Base):
     amount_deposit = Column(String(250))
     amount_withdraw = Column(String(250))
 
-    statement_history_id = Column(Integer,ForeignKey('user_table.id'))
-    user_table = relationship(UserTable)
+    holder_id = Column(Integer,ForeignKey('user_table.id'))
+    
     
     
 
@@ -64,8 +69,8 @@ class StatementTable(Base):
     balance = Column(String(8))    
     email = Column(String(250))
 
-    statement_id = Column(Integer,ForeignKey('user_table.id'))
-    user_table = relationship(UserTable)
+    holder_id = Column(Integer,ForeignKey('user_table.id'))
+    
 
 
     @property
